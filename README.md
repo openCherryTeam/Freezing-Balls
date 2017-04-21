@@ -1,6 +1,16 @@
 # Freezing-Balls
-#gppcc10
 
+How to start:
+npm start
+-> http://localhost:1337/
+
+what we use:
+http://phaser.io/
+https://nodejs.org/en/
+http://expressjs.com/de/
+
+
+#gppcc10
 Freezing balls
 
 Abgabe
