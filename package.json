@@ -1,0 +1,23 @@
+{
+    "name": "freezing_balls",
+    "version": "0.0.2",
+    "description": "game",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/openCherryTeam/Freezing-Balls.git"
+    },
+    "author": "max",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/openCherryTeam/Freezing-Balls/issues"
+    },
+    "homepage": "https://github.com/openCherryTeam/Freezing-Balls#readme",
+    "dependencies": {
+        "express": "^4.15.2"
+    }
+}
