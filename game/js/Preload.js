@@ -16,9 +16,9 @@ TopDownGame.Preload.prototype = {
         this.load.image('gameTiles', './assets/images/tilemap.png');
         this.load.image('player', './assets/images/player.png');
         this.load.image('browndoor', './assets/images/browndoor.png');
+        this.load.image('bullet', './assets/images/snowball.png');
         this.load.image('snowball', './assets/images/snowball.png');
-
-
+        this.load.image('piabaum', './assets/images/piabaum.png');
     },
     create: function() {
         this.state.start('Game');

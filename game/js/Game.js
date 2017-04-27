@@ -4,6 +4,22 @@ var TopDownGame = TopDownGame || {};
 TopDownGame.Game = function() {};
 
 TopDownGame.Game.prototype = {
+    fireRate: 100,
+    nextFire: 0,
+    fire: function() {
+        if (this.time.now > this.nextFire && this.bullets.countDead() > 0) {
+            this.nextFire = this.time.now + this.fireRate;
+            var bullet = this.bullets.getFirstDead();
+            bullet.reset(this.player.x - 8, this.player.y - 8);
+            this.physics.arcade.moveToPointer(bullet, 30);
+        }
+    },
+    render: function() {
+        // console.log('Active Bullets: ' + this.bullets.countLiving() + ' / ' + this.bullets.total, 32, 32);
+        // console.log(this.player, 32, 450);
+
+    },
+
     create: function() {
         this.map = this.game.add.tilemap('level1');
 
@@ -33,6 +49,28 @@ TopDownGame.Game.prototype = {
 
         //move player with cursor keys
         this.cursors = this.game.input.keyboard.createCursorKeys();
+
+
+
+
+        // game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        // game.stage.backgroundColor = '#313131';
+
+        this.bullets = this.game.add.group();
+        this.bullets.enableBody = true;
+        this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
+
+        this.bullets.createMultiple(50, 'bullet');
+        this.bullets.setAll('checkWorldBounds', true);
+        this.bullets.setAll('outOfBoundsKill', true);
+
+        // sprite = game.add.sprite(400, 300, 'arrow');
+        // sprite.anchor.set(0.5);
+
+        // game.physics.enable(sprite, Phaser.Physics.ARCADE);
+
+        // sprite.body.allowRotation = false;
 
     },
     createItems: function() {
@@ -103,14 +141,22 @@ TopDownGame.Game.prototype = {
         } else if (this.cursors.right.isDown) {
             this.player.body.velocity.x += 50;
         }
+
+
+
+        // sprite.rotation = game.physics.arcade.angleToPointer(sprite);
+
+        if (this.game.input.activePointer.isDown) {
+            this.fire();
+        }
     },
     collect: function(player, collectable) {
         console.log('autsch!');
-
         //remove sprite
         collectable.destroy();
     },
     enterDoor: function(player, door) {
         console.log('entering door that will take you to ' + door.targetTilemap + ' on x:' + door.targetX + ' and y:' + door.targetY);
     },
+
 };
