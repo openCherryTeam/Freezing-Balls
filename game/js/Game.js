@@ -1,5 +1,6 @@
 var TopDownGame = TopDownGame || {};
 
+
 //title screen
 TopDownGame.Game = function() {};
 
@@ -59,6 +60,10 @@ TopDownGame.Game.prototype = {
         this.game.physics.arcade.collide(this.player, this.blockedLayer);
         this.game.physics.arcade.overlap(this.player, this.items, this.collect, null, this);
         this.game.physics.arcade.overlap(this.player, this.doors, this.enterDoor, null, this);
+        this.game.physics.arcade.collide(this.enemies, this.bullets, this.enemyHitBullet, null, this);
+        this.game.physics.arcade.collide(this.bullets, this.blockedLayer, this.bulletHitWall, null, this);
+        this.game.physics.arcade.collide(this.enemies, this.blockedLayer);
+
 
         //player movement
 
@@ -83,10 +88,52 @@ TopDownGame.Game.prototype = {
             this.fire();
         }
 
+        // this.enemies.children.forEach(function(element) {
+        //     let velx = 0,
+        //         vely = 0;
+        //     switch (Math.round(Math.random() * 3)) {
+        //         case 0:
+        //             element.body.velocity.y -= 2;
+        //             break;
+        //         case 1:
+        //             element.body.velocity.y += 1;
+        //             break;
+        //         case 2:
+        //             element.body.velocity.x -= 3;
+        //             break;
+        //         case 3:
+        //             element.body.velocity.x += 5;
+        //             break;
+        //     }
 
-        this.game.physics.arcade.collide(this.enemies, this.bullets, this.enemyHitBullet, null, this);
+        // }, this);
+
+        this.enemies.forEachAlive(function(enemy) {
+            if (enemy.visible && enemy.inCamera) {
+                // this.game.physics.arcade.moveToObject(enemy, this.player, enemy.speed);
+                this.game.physics.arcade.moveToObject(enemy, this.player, 9);
+
+                this.enemyMovementHandler(enemy);
+            }
+        }, this);
 
 
+
+    },
+    enemyMovementHandler: function(enemy) {
+        // Left
+        if (enemy.body.velocity.x < 0 && enemy.body.velocity.x <= -Math.abs(enemy.body.velocity.y)) {
+            enemy.animations.play('left');
+            // Right
+        } else if (enemy.body.velocity.x > 0 && enemy.body.velocity.x >= Math.abs(enemy.body.velocity.y)) {
+            enemy.animations.play('right');
+            // Up
+        } else if (enemy.body.velocity.y < 0 && enemy.body.velocity.y <= -Math.abs(enemy.body.velocity.x)) {
+            enemy.animations.play('up');
+            // Down
+        } else {
+            enemy.animations.play('down');
+        }
     },
 
     //find objects in a Tiled layer that containt a property called "type" equal to a certain value
@@ -133,11 +180,9 @@ TopDownGame.Game.prototype = {
         }, this);
     },
     createEnemy: function() {
-        var result = this.findObjectsByType('enemy', this.map, 'objectsLayer')
-            // this.enemy = this.game.add.sprite(result[0].x, result[0].y, 'enemy');
-            // this.game.physics.arcade.enable(this.enemy);
+        var result = this.findObjectsByType('enemy', this.map, 'objectsLayer');
 
-
+        var game = this;
         result.forEach(function(element) {
             var enemy = this.enemies.getFirstExists(false);
             if (enemy) {
@@ -145,7 +190,6 @@ TopDownGame.Game.prototype = {
             } else {
                 enemy = this.enemies.create(element.x, element.y, 'enemy');
             }
-            enemy.body.velocity.x = -this.enemySpeed;
             enemy.outOfBoundsKill = true;
             enemy.checkWorldBounds = true;
         }, this);
@@ -172,6 +216,9 @@ TopDownGame.Game.prototype = {
         if (this.enemies.getIndex(enemy) > -1)
             this.enemies.remove(enemy);
         enemy.kill();
+        bullet.kill();
+    },
+    bulletHitWall: function(bullet, wall) {
         bullet.kill();
     },
     render: function() {
