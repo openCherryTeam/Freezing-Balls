@@ -1,6 +1,6 @@
 var TopDownGame = TopDownGame || {};
 
-TopDownGame.game = new Phaser.Game(160, 160, Phaser.AUTO, 'gameArea');
+TopDownGame.game = new Phaser.Game(160, 160, Phaser.AUTO, 'gameArea', null, false, false);
 
 TopDownGame.game.state.add('Boot', TopDownGame.Boot);
 // TopDownGame.game.state.add('Menue', TopDownGame.Menue);
