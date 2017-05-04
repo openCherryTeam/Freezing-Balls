@@ -32,7 +32,7 @@ TopDownGame.Game.prototype = {
         this.player = this.game.add.sprite(result[0].x, result[0].y, 'Player');
         this.player.frame = 5;
         this.player.animations.add('right', [5,6,7,0,1,2,3,4], 16, true, true);
-        this.player.animations.add('left', [0,1,0,1,0,1,0,1], 16, true, true);
+        this.player.animations.add('left', [13,14,15,8,9,10,11,12], 16, true, true);
         //this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
         this.game.physics.arcade.enable(this.player);
 
