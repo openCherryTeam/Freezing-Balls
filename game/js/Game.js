@@ -29,7 +29,11 @@ TopDownGame.Game.prototype = {
 
         //create player
         var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
-        this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
+        this.player = this.game.add.sprite(result[0].x, result[0].y, 'Player');
+        this.player.frame = 5;
+        this.player.animations.add('right', [5,6,7,0,1,2,3,4], 16, true, true);
+        this.player.animations.add('left', [0,1,0,1,0,1,0,1], 16, true, true);
+        //this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
         this.game.physics.arcade.enable(this.player);
 
         //the camera will follow the player in the world
@@ -52,6 +56,8 @@ TopDownGame.Game.prototype = {
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
 
         this.createEnemy();
+
+        
 
 
     },
@@ -80,9 +86,15 @@ TopDownGame.Game.prototype = {
         }
         if (this.cursors.left.isDown) {
             this.player.body.velocity.x -= 50;
+            this.player.animations.play('left');
         } else if (this.cursors.right.isDown) {
             this.player.body.velocity.x += 50;
+            this.player.animations.play('right');
+        } else {
+            this.player.animations.stop();
         }
+
+        
 
         if (this.game.input.activePointer.isDown) {
             this.fire();
@@ -111,7 +123,7 @@ TopDownGame.Game.prototype = {
         this.enemies.forEachAlive(function(enemy) {
             if (enemy.visible && enemy.inCamera) {
                 // this.game.physics.arcade.moveToObject(enemy, this.player, enemy.speed);
-                this.game.physics.arcade.moveToObject(enemy, this.player, 9);
+                this.game.physics.arcade.moveToObject(enemy, this.player, 25);
 
                 this.enemyMovementHandler(enemy);
             }
@@ -226,5 +238,4 @@ TopDownGame.Game.prototype = {
         // console.log(this.player, 32, 450);
 
     },
-
 };

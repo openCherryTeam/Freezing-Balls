@@ -15,7 +15,7 @@ TopDownGame.Preload.prototype = {
         this.load.image('snowball', './assets/images/snowball.png');
         this.load.image('piabaum', './assets/images/piabaum.png');
         this.load.image('enemy', './assets/images/player.png');
-
+        this.load.spritesheet('Player', './assets/Player/Move_Right.png', 32, 32);
         //enemy
 
     },
