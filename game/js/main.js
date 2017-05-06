@@ -9,16 +9,4 @@ class Game extends Phaser.Game {
         this.state.start('Boot');
     }
 }
-
-<<<<<<< HEAD
 window.game = new Game();
-=======
-TopDownGame.game = new Phaser.Game(160, 160, Phaser.AUTO, 'gameArea', null, false, false);
-
-TopDownGame.game.state.add('Boot', TopDownGame.Boot);
-// TopDownGame.game.state.add('Menue', TopDownGame.Menue);
-TopDownGame.game.state.add('Preload', TopDownGame.Preload);
-TopDownGame.game.state.add('Game', TopDownGame.Game);
-
-TopDownGame.game.state.start('Boot');
->>>>>>> origin/master
