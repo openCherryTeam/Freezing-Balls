@@ -2,26 +2,31 @@
 
 <head>
     <style>
-        #gameArea {
+        /*#gameArea {
             width: 600px;
             height: 600px;
-        }
+        }*/
         
         canvas {
             image-rendering: pixelated;
+            cursor: crosshair
         }
         
         body {
             background-color: lightgray;
         }
     </style>
+    <!--plugins-->
     <script type="text/javascript" src="./js/phaser.js"></script>
+    <script type="text/javascript" src="./js/plugins/HealthBar.standalone.js"></script>
     <script type="text/javascript" src="./js/GenericEnemy.js"></script>
     <!--<script type="text/javascript" src="./js/phaser.min.js"></script>-->
-    <script type="text/javascript" src="./js/Boot.js"></script>
-    <script type="text/javascript" src="./js/Menue.js"></script>
-    <script type="text/javascript" src="./js/Preload.js"></script>
-    <script type="text/javascript" src="./js/Game.js"></script>
+
+    <!--States-->
+    <script type="text/javascript" src="./js/states/Boot.js"></script>
+    <script type="text/javascript" src="./js/states/Menue.js"></script>
+    <script type="text/javascript" src="./js/states/Preload.js"></script>
+    <script type="text/javascript" src="./js/states/Game.js"></script>
     <title>Freezing-Balls</title>
 </head>
 

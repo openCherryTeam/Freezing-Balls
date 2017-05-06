@@ -1,13 +1,8 @@
-var TopDownGame = TopDownGame || {};
-
-TopDownGame.Boot = function() {};
-
-//setting game configuration and loading the assets for the loading screen
-TopDownGame.Boot.prototype = {
-    preload: function() {
+class Boot extends Phaser.State {
+    preload() {
         //assets we'll use in the loading screen
-    },
-    create: function() {
+    }
+    create() {
         //loading screen will have a white background
         this.game.stage.backgroundColor = '#fff';
 
@@ -23,4 +18,4 @@ TopDownGame.Boot.prototype = {
 
         this.state.start('Preload');
     }
-};
+}

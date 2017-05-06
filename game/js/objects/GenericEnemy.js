@@ -1,6 +1,6 @@
 class GenericEnemy {
 
-    constructor({}) {
+    constructor() {
 
     }
 

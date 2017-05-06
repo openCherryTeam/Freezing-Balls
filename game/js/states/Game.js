@@ -1,18 +1,25 @@
-var TopDownGame = TopDownGame || {};
+class GameState extends Phaser.State {
 
 
-//title screen
-TopDownGame.Game = function() {};
+    get FireRate() {
+        return this.fireRate;
+    }
+    get NextFire() {
+        return this.nextFire;
+    }
+    set NextFire(value) {
+        this.nextFire = value;
+    }
 
-TopDownGame.Game.prototype = {
-    fireRate: 100,
-    nextFire: 0,
+    create() {
+        this.fireRate = 100;
+        this.nextFire = 0;
 
-    create: function() {
+
         this.map = this.game.add.tilemap('level1');
 
         //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
-        this.map.addTilesetImage('tilemap', 'gameTiles');
+        this.map.addTilesetImage('tilemap32', 'gameTiles');
 
         //create layer
         this.backgroundlayer = this.map.createLayer('backgroundLayer');
@@ -31,9 +38,14 @@ TopDownGame.Game.prototype = {
         var result = this.findObjectsByType('playerStart', this.map, 'objectsLayer')
         this.player = this.game.add.sprite(result[0].x, result[0].y, 'Player');
         this.player.frame = 5;
+<<<<<<< HEAD:game/js/states/Game.js
+        this.player.animations.add('right', [5, 6, 7, 0, 1, 2, 3, 4], 16, true, true);
+        this.player.animations.add('left', [13, 14, 15, 8, 9, 10, 11, 12], 16, true, true);
+=======
         this.player.animations.add('right', [5,6,7,0,1,2,3,4], 16, true, true);
         this.player.animations.add('left', [13,14,15,8,9,10,11,12], 16, true, true);
         //this.player = this.game.add.sprite(result[0].x, result[0].y, 'player');
+>>>>>>> origin/master:game/js/Game.js
         this.game.physics.arcade.enable(this.player);
 
         //the camera will follow the player in the world
@@ -60,8 +72,25 @@ TopDownGame.Game.prototype = {
         
 
 
-    },
-    update: function() {
+        this.myHealthBar = new HealthBar(this.game, {
+            width: 40,
+            height: 10,
+            x: 30,
+            y: 20,
+            bar: {
+                color: '#54ff00'
+            },
+            bg: {
+                color: '#cc2424'
+            }
+        });
+
+        // the width will be set to 50% of the actual size so the new value will be 60
+        this.myHealthBar.setPercent(50);
+        this.myHealthBar.setFixedToCamera(true);
+
+    }
+    update() {
         //collision
         this.game.physics.arcade.collide(this.player, this.blockedLayer);
         this.game.physics.arcade.overlap(this.player, this.items, this.collect, null, this);
@@ -71,30 +100,39 @@ TopDownGame.Game.prototype = {
         this.game.physics.arcade.collide(this.enemies, this.blockedLayer);
 
 
+
         //player movement
 
         this.player.body.velocity.x = 0;
 
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown || this.input.keyboard.isDown(Phaser.Keyboard.W)) {
             if (this.player.body.velocity.y == 0)
                 this.player.body.velocity.y -= 50;
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || this.input.keyboard.isDown(Phaser.Keyboard.S)) {
             if (this.player.body.velocity.y == 0)
                 this.player.body.velocity.y += 50;
         } else {
             this.player.body.velocity.y = 0;
         }
-        if (this.cursors.left.isDown) {
+        if (this.cursors.left.isDown || this.input.keyboard.isDown(Phaser.Keyboard.A)) {
             this.player.body.velocity.x -= 50;
             this.player.animations.play('left');
+<<<<<<< HEAD:game/js/states/Game.js
+        } else if (this.cursors.right.isDown || this.input.keyboard.isDown(Phaser.Keyboard.D)) {
+=======
         } else if (this.cursors.right.isDown) {
+>>>>>>> origin/master:game/js/Game.js
             this.player.body.velocity.x += 50;
             this.player.animations.play('right');
         } else {
             this.player.animations.stop();
         }
 
+<<<<<<< HEAD:game/js/states/Game.js
+
+=======
         
+>>>>>>> origin/master:game/js/Game.js
 
         if (this.game.input.activePointer.isDown) {
             this.fire();
@@ -118,21 +156,28 @@ TopDownGame.Game.prototype = {
         //             break;
         //     }
 
-        // }, this);
+        //  }, this);
 
         this.enemies.forEachAlive(function(enemy) {
+<<<<<<< HEAD:game/js/states/Game.js
+                if (enemy.visible && enemy.inCamera) {
+                    // this.game.physics.arcade.moveToObject(enemy, this.player, enemy.speed);
+                    this.game.physics.arcade.moveToObject(enemy, this.player, 25);
+=======
             if (enemy.visible && enemy.inCamera) {
                 // this.game.physics.arcade.moveToObject(enemy, this.player, enemy.speed);
                 this.game.physics.arcade.moveToObject(enemy, this.player, 25);
+>>>>>>> origin/master:game/js/Game.js
 
-                this.enemyMovementHandler(enemy);
-            }
-        }, this);
+                    this.enemyMovementHandler(enemy);
+                }
+            },
+            this);
 
 
 
-    },
-    enemyMovementHandler: function(enemy) {
+    }
+    enemyMovementHandler(enemy) {
         // Left
         if (enemy.body.velocity.x < 0 && enemy.body.velocity.x <= -Math.abs(enemy.body.velocity.y)) {
             enemy.animations.play('left');
@@ -146,10 +191,10 @@ TopDownGame.Game.prototype = {
         } else {
             enemy.animations.play('down');
         }
-    },
+    }
 
     //find objects in a Tiled layer that containt a property called "type" equal to a certain value
-    findObjectsByType: function(type, map, layer) {
+    findObjectsByType(type, map, layer) {
         var result = new Array();
         map.objects[layer].forEach(function(element) {
             if (element.properties.type === type) {
@@ -161,81 +206,88 @@ TopDownGame.Game.prototype = {
             }
         });
         return result;
-    },
+    }
     //create a sprite from an object
-    createFromTiledObject: function(element, group) {
+    createFromTiledObject(element, group) {
         var sprite = group.create(element.x, element.y, element.properties.sprite);
 
         //copy all properties to the sprite
         Object.keys(element.properties).forEach(function(key) {
             sprite[key] = element.properties[key];
         });
-    },
-    createItems: function() {
+    }
+    createItems() {
         //create items
         this.items = this.game.add.group();
         this.items.enableBody = true;
         var item;
-        result = this.findObjectsByType('item', this.map, 'objectsLayer');
+        var result = this.findObjectsByType('item', this.map, 'objectsLayer');
         result.forEach(function(element) {
-            this.createFromTiledObject(element, this.items);
-        }, this);
-    },
-    createDoors: function() {
+                this.createFromTiledObject(element, this.items);
+            },
+            this);
+    }
+    createDoors() {
         //create doors
         this.doors = this.game.add.group();
         this.doors.enableBody = true;
-        result = this.findObjectsByType('door', this.map, 'objectsLayer');
+        var result = this.findObjectsByType('door', this.map, 'objectsLayer');
 
         result.forEach(function(element) {
-            this.createFromTiledObject(element, this.doors);
-        }, this);
-    },
-    createEnemy: function() {
+                this.createFromTiledObject(element, this.doors);
+            },
+            this);
+    }
+    createEnemy() {
         var result = this.findObjectsByType('enemy', this.map, 'objectsLayer');
 
         var game = this;
         result.forEach(function(element) {
-            var enemy = this.enemies.getFirstExists(false);
-            if (enemy) {
-                enemy.reset(element.x, element.y, 'enemy');
-            } else {
-                enemy = this.enemies.create(element.x, element.y, 'enemy');
-            }
-            enemy.outOfBoundsKill = true;
-            enemy.checkWorldBounds = true;
-        }, this);
+                var enemy = this.enemies.getFirstExists(false);
+                if (enemy) {
+                    enemy.reset(element.x, element.y, 'enemy');
+                } else {
+                    enemy = this.enemies.create(element.x, element.y, 'enemy');
+                }
+                enemy.outOfBoundsKill = true;
+                enemy.checkWorldBounds = true;
+            },
+            this);
 
 
-    },
-    collect: function(player, collectable) {
+    }
+    collect(player, collectable) {
         console.log('autsch!');
         //remove sprite
         collectable.destroy();
-    },
-    enterDoor: function(player, door) {
+    }
+    enterDoor(player, door) {
         console.log('entering door that will take you to ' + door.targetTilemap + ' on x:' + door.targetX + ' and y:' + door.targetY);
-    },
-    fire: function() {
-        if (this.time.now > this.nextFire && this.bullets.countDead() > 0) {
-            this.nextFire = this.time.now + this.fireRate;
+    }
+    fire() {
+        if (this.time.now > this.NextFire && this.bullets.countDead() > 0) {
+            this.NextFire = this.time.now + this.FireRate;
             var bullet = this.bullets.getFirstDead();
             bullet.reset(this.player.x, this.player.y);
             this.physics.arcade.moveToPointer(bullet, 60);
         }
-    },
-    enemyHitBullet: function(bullet, enemy) {
+    }
+    enemyHitBullet(bullet, enemy) {
         if (this.enemies.getIndex(enemy) > -1)
             this.enemies.remove(enemy);
         enemy.kill();
         bullet.kill();
-    },
-    bulletHitWall: function(bullet, wall) {
+    }
+    bulletHitWall(bullet, wall) {
         bullet.kill();
-    },
-    render: function() {
+    }
+    render() {
         // console.log('Active Bullets: ' + this.bullets.countLiving() + ' / ' + this.bullets.total, 32, 32);
         // console.log(this.player, 32, 450);
 
+<<<<<<< HEAD:game/js/states/Game.js
+    }
+=======
     },
+>>>>>>> origin/master:game/js/Game.js
 };
