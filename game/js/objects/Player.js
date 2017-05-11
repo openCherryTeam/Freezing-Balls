@@ -7,7 +7,6 @@ class Player extends Phaser.Sprite {
         this.bullets = value;
     }
 
-
     constructor(game, x, y, key, frame, bullets) {
         super(game, x, y, key, frame);
         this.frame = 5;

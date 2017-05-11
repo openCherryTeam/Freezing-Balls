@@ -13,7 +13,7 @@ class GameState extends Phaser.State {
         this.backgroundlayer.resizeWorld();
         //move player with cursor keys
         this.cursors = this.game.input.keyboard.createCursorKeys();
-        var bulletGroup = new Bullets(this.game);
+        var bulletGroup = new BounceBall(this.game);
         this.bullets = this.game.add.existing(bulletGroup);
 
         this.player = this.createPlayer();
@@ -40,15 +40,18 @@ class GameState extends Phaser.State {
     }
     update() {
         //collision
-        this.game.physics.arcade.collide(this.player, this.blockedLayer);
         // this.game.physics.arcade.overlap(this.player, this.items, this.collect, null, this);
         // this.game.physics.arcade.overlap(this.player, this.doors, this.enterDoor, null, this);
-        this.game.physics.arcade.collide(this.enemies, this.bullets, this.enemies.enemyHitBullet, null, this);
-        this.game.physics.arcade.collide(this.player.bullets, this.blockedLayer, this.player.bullets.bulletHitWall, null, this);
-        this.game.physics.arcade.collide(this.enemies, this.blockedLayer);
-        //player movement
+
+        //updates für movements/collisionen
         this.player.move(this);
-        this.enemies.updateEnemys(this.player);
+        this.enemies.updateEnemys(this);
+        this.game.physics.arcade.collide(this.player, this.blockedLayer);
+        this.game.physics.arcade.collide(this.enemies, this.blockedLayer);
+        this.game.physics.arcade.collide(this.player.Bullets, this.blockedLayer, this.player.Bullets.bulletHitWall, null, this);
+        this.game.physics.arcade.collide(this.enemies, this.bullets, this.enemies.enemyHitBullet, null, this);
+
+
     }
 
     //find objects in a Tiled layer that containt a property called "type" equal to a certain value

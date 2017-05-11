@@ -16,7 +16,8 @@ class Enemys extends Phaser.Group {
         enemy.outOfBoundsKill = true;
         enemy.checkWorldBounds = true;
     }
-    updateEnemys(player) {
+    updateEnemys(gameUpdate) {
+        var player = gameUpdate.player;
         // this.enemies.children.forEach(function(element) {
         //     let velx = 0,
         //         vely = 0;
@@ -64,7 +65,4 @@ class Enemys extends Phaser.Group {
         bullet.kill();
     }
 
-    bulletHitWall(bullet, wall) {
-        bullet.kill();
-    }
 }
