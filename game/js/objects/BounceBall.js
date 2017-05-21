@@ -3,7 +3,6 @@ class BounceBall extends Bullets {
 
     constructor(game) {
         super(game);
-        console.log("ads");
     }
 
     modifyBullet(bullet) {

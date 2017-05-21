@@ -7,7 +7,36 @@ class Player extends Phaser.Sprite {
         this.bullets = value;
     }
 
-    constructor(game, x, y, key, frame, bullets) {
+    get Live() {
+        return this.live;
+    }
+
+    set Live(value) {
+        this.live = value;
+        this.HealthBar.setPercent(this.live);
+    }
+
+    get HealthBar() {
+        return this.healthBar;
+    }
+
+    set HealthBar(value) {
+        this.healthBar = value;
+    }
+
+    removeLives(damage) {
+        if (this.Live > 0)
+            this.Live = this.Live - damage;
+        else
+            window.game.state.start("GameOver")
+    }
+
+    regenerateLives(reg) {
+        if (this.Live < 100)
+            this.Live = this.Live + reg;
+    }
+
+    constructor(game, x, y, key, frame, bullets, healthBar) {
         super(game, x, y, key, frame);
         this.frame = 5;
         this.animations.add('right', [5, 6, 7, 0, 1, 2, 3, 4], 16, true, true);
@@ -16,6 +45,8 @@ class Player extends Phaser.Sprite {
         //the camera will follow the player in the world
         game.camera.follow(this);
         this.Bullets = bullets;
+        this.HealthBar = healthBar;
+        this.Live = 100;
     }
 
     move(gameUpdate) {
