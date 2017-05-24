@@ -12,7 +12,7 @@ class GameOver extends Phaser.State {
         //have the game centered horizontally
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
-
+        this.text = game.add.text (100, 100, 'Game Over', {font: "32px Arial", fill: "#ee0000"});
 
     }
 }
