@@ -66,6 +66,8 @@ class GameState extends Phaser.State {
         money.enableBody = true;
         this.Drop = money;
 
+        this.music = this.game.add.audio('musik');
+        this.music.play();
     }
     update() {
         //collision

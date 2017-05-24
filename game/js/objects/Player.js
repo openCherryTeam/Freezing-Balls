@@ -25,9 +25,9 @@ class Player extends Phaser.Sprite {
     }
 
     removeLives(damage) {
-        if (this.Live > 0)
+        if (this.Live > 0) {
             this.Live = this.Live - damage;
-        else
+        } else
             window.game.state.start("GameOver")
     }
 
