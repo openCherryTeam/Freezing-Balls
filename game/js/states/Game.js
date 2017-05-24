@@ -82,11 +82,18 @@ class GameState extends Phaser.State {
         money.enableBody = true;
         this.Drop = money;
 
-        // test
+        // Points
         this.Points = 0;
         this.points_text = game.add.text (10, 30, 'Punkte: 0', {font: "10px Arial", fill: "#000000"});
         this.points_text.fixedToCamera = true;
+
+        this.music = this.game.add.audio('musik');
+        this.music.play();
     }
+
+    this.music = this.game.add.audio('musik');
+    this.music.play();
+
     update() {
         //collision
         // this.game.physics.arcade.overlap(this.player, this.doors, this.enterDoor, null, this);
