@@ -25,15 +25,14 @@ class Player extends Phaser.Sprite {
     }
 
     removeLives(damage) {
-        if (this.Live > 0) {
-            this.Live = this.Live - damage;
-        } else
+        this.Live = this.Live - damage;
+        if (this.Live < 0)
             window.game.state.start("GameOver")
     }
 
-    regenerateLives(reg) {
+    regenerateLives() {
         if (this.Live < 100)
-            this.Live = this.Live + reg;
+            this.Live = this.Live + 24;
     }
 
     constructor(game, x, y, key, frame, bullets, healthBar) {
@@ -47,6 +46,7 @@ class Player extends Phaser.Sprite {
         this.Bullets = bullets;
         this.HealthBar = healthBar;
         this.Live = 100;
+        game.time.events.loop(Phaser.Timer.SECOND, this.regenerateLives, this);
     }
 
     move(gameUpdate) {
