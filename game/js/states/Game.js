@@ -91,9 +91,6 @@ class GameState extends Phaser.State {
         this.music.play();
     }
 
-    this.music = this.game.add.audio('musik');
-    this.music.play();
-
     update() {
         //collision
         // this.game.physics.arcade.overlap(this.player, this.doors, this.enterDoor, null, this);
