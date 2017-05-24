@@ -17,9 +17,7 @@ class GameState extends Phaser.State {
         this.anzahlEnemys = value;
     }
 
-    addAnzahlEnemys(addValue) {
-        this.AnzahlEnemys = this.AnzahlEnemys + addValue;
-    }
+
 
     get Points() {
         return this.points;
@@ -35,6 +33,30 @@ class GameState extends Phaser.State {
 
         this.points_text.setText('Punkte: ' + this.Points);
 
+    }
+
+    get Wave() {
+        return this.wave;
+    }
+
+    set Wave(value) {
+        this.wave = value;
+    }
+
+    get EnemiesPerWave() {
+        return this.enemiesPerWave;
+    }
+
+    set EnemiesPerWave(value) {
+        this.enemiesPerWave = value;
+    }
+
+    get EnemiesHealth() {
+        return this.enemiesHealth;
+    }
+
+    set EnemiesHealth(value) {
+        this.enemiesHealth = value;
     }
 
     create() {
@@ -75,8 +97,13 @@ class GameState extends Phaser.State {
         var enemyGroup = new Enemys(this);
         this.enemies = this.game.add.existing(enemyGroup);
 
-        this.AnzahlEnemys = 1;
-        this.createEnemy(this.AnzahlEnemys);
+
+        this.Wave = 1;
+        this.EnemiesPerWave = 5;
+        this.AnzahlEnemys = 0;
+        this.EnemiesHealth = 2;
+        
+        this.createEnemy(this.EnemiesPerWave);
 
         var money = game.add.group();
         money.enableBody = true;
@@ -102,11 +129,16 @@ class GameState extends Phaser.State {
         this.game.physics.arcade.collide(this.player, this.blockedLayer);
         this.game.physics.arcade.collide(this.enemies, this.blockedLayer);
         this.game.physics.arcade.collide(this.player.Bullets, this.blockedLayer, this.player.Bullets.bulletHitWall, null, this);
-        var rueckgabe = this.game.physics.arcade.collide(this.enemies, this.bullets, this.enemies.enemyHitBullet, null, this);
-        if (rueckgabe) {
-            this.addAnzahlEnemys(1);
-            this.createEnemy(this.AnzahlEnemys);
+        var kill = this.game.physics.arcade.collide(this.enemies, this.bullets, this.enemies.enemyHitBullet, null, this);
+        if (kill) {
+            this.AnzahlEnemys--;
             this.updatePoints(1);
+            if (this.AnzahlEnemys == 0)
+            {
+                this.EnemiesPerWave += 3;
+                this.createEnemy(this.EnemiesPerWave);
+
+            }
         }
         this.game.physics.arcade.collide(this.enemies, this.player, this.enemies.enemyHitPlayer, null, this);
 
@@ -149,15 +181,9 @@ class GameState extends Phaser.State {
             anzahl = 1;
         for (var index = 0; index < anzahl; index++) {
             var position = Math.abs(Math.round(Math.random() * this.enemies.spanPos.length - 1));
-            this.enemies.createEnemy(position);
+            this.enemies.createEnemy(position);//, this.EnemiesHealth);
         }
-    }
-
-    createAllEnemy() {
-        var result = this.findObjectsByType('enemy', this.map, 'objectsLayer');
-        result.forEach(function(position) {
-            this.enemies.createEnemy(position);
-        }, this);
+        this.AnzahlEnemys += anzahl;
     }
 
 
