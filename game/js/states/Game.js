@@ -21,6 +21,22 @@ class GameState extends Phaser.State {
         this.AnzahlEnemys = this.AnzahlEnemys + addValue;
     }
 
+    get Points() {
+        return this.points;
+    }
+
+    set Points(value) {
+        this.points = value;
+    }
+
+    updatePoints(addValue) {
+
+        this.Points += addValue;
+
+        this.points_text.setText('Punkte: ' + this.Points);
+
+    }
+
     create() {
         this.map = this.game.add.tilemap('level1');
         //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
@@ -66,6 +82,10 @@ class GameState extends Phaser.State {
         money.enableBody = true;
         this.Drop = money;
 
+        // test
+        this.Points = 0;
+        this.points_text = game.add.text (10, 30, 'Punkte: 0', {font: "10px Arial", fill: "#000000"});
+        this.points_text.fixedToCamera = true;
     }
     update() {
         //collision
@@ -82,6 +102,7 @@ class GameState extends Phaser.State {
         if (rueckgabe) {
             this.addAnzahlEnemys(1);
             this.createEnemy(this.AnzahlEnemys);
+            this.updatePoints(1);
         }
         this.game.physics.arcade.collide(this.enemies, this.player, this.enemies.enemyHitPlayer, null, this);
 
@@ -140,6 +161,7 @@ class GameState extends Phaser.State {
         console.log('autsch!');
         //remove sprite
         collectable.destroy();
+        this.updatePoints(2);
     }
 
     // createItems() {
