@@ -12,6 +12,7 @@ class Preload extends Phaser.State {
         this.load.image('piabaum', './assets/images/piabaum.png');
         this.load.image('enemy', './assets/images/player.png');
         this.load.spritesheet('Player', './assets/animations/Player/Movement.png', 32, 32);
+        game.load.audio('musik', ['assets/music/background_musik.mp3']);
         //enemy
     }
     create() {

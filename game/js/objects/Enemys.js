@@ -79,6 +79,8 @@ class Enemys extends Phaser.Group {
 
     enemyHitPlayer(player, enemy) {
         player.removeLives(10);
+        this.camera.shake(0.01, 100, true, Phaser.Camera.SHAKE_BOTH, true);
+
     }
 
 }
