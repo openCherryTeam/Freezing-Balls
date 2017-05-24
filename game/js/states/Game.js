@@ -111,7 +111,7 @@ class GameState extends Phaser.State {
 
         // Points
         this.Points = 0;
-        this.points_text = game.add.text (10, 30, 'Punkte: 0', {font: "10px Arial", fill: "#000000"});
+        this.points_text = game.add.text(10, 30, 'Punkte: 0', { font: "10px Arial", fill: "#000000" });
         this.points_text.fixedToCamera = true;
 
         this.music = this.game.add.audio('musik');
@@ -124,7 +124,6 @@ class GameState extends Phaser.State {
 
         //updates für movements/collisionen
         this.player.move(this);
-        this.player.regenerateLives(1);
         this.enemies.updateEnemys(this);
         this.game.physics.arcade.collide(this.player, this.blockedLayer);
         this.game.physics.arcade.collide(this.enemies, this.blockedLayer);
